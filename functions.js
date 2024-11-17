@@ -1,0 +1,34 @@
+// functions.js
+function captureAndShare() {
+    const video = document.getElementById('cameraFeed'); // Get the video feed
+
+    if (!video) {
+        alert("No video feed available.");
+        return;
+    }
+
+    // Create a canvas to capture the current frame from the video
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    // Draw the current frame from the video onto the canvas
+    const context = canvas.getContext('2d');
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // Convert the canvas content to a base64 image
+    const imageDataUrl = canvas.toDataURL('image/png');
+
+    // Store the image in localStorage
+    storePhoto(imageDataUrl);
+
+    // Optionally reload the gallery page to view the uploaded photo
+    window.location.href = 'gallery.html';
+}
+
+// Store photo in localStorage
+function storePhoto(src) {
+    let storedPhotos = JSON.parse(localStorage.getItem('photos')) || [];
+    storedPhotos.push(src); // Add the new photo
+    localStorage.setItem('photos', JSON.stringify(storedPhotos)); // Store the updated list
+}

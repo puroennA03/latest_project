@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生物調査</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <header class="header">
+        <h1>生物調査</h1>
+        <p>自然の中での発見！自分だけの発見を持ち帰ろう！</p>
+    </header>
+
+    <main class="main-content">
+        <div class="action-container">
+            <section class="card">
+                <button class="action-btn" onclick="startCamera()">撮影</button>
+                <label class="file-input">
+                    <input type="file" accept="image/*" id="photoInput" onchange="processImage(event)" style="display: none;">
+                    アルバムから選択
+                </label>
+                <p>野生の生き物の写真を撮りましょう！</p>
+                <video id="cameraFeed" autoplay playsinline style="display: none; width: 100%; border-radius: 8px;"></video>
+            </section>
+            
+            <section class="card">
+                <button class="action-btn" onclick="captureAndShare()">投稿</button>
+                <p>見つけたものをSNSに投稿しよう！</p>
+            </section>
+        </div>
+
+        <section class="photo-gallery">
+            <h2>最近撮った生物</h2>
+            <div id="photoContainer" class="photo-container"></div>
+        </section>
+
+    </main>
+
+    <script>
+        let selectedImageDataUrl = '';
+
+        function startCamera() {
+            const video = document.getElementById('cameraFeed');
+            video.style.display = 'block';
+
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then((stream) => {
+                    video.srcObject = stream;
+                })
+                .catch((error) => {
+                    console.error('Error accessing camera:', error);
+                    alert('カメラにアクセスできませんでした。カメラの設定を確認してください。');
+                });
+        }
+
+        function processImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        selectedImageDataUrl = e.target.result.split(",")[1]; // Get the base64 part
+                        displaySelectedPhoto(e.target.result);
+                        identifyImage(); // Call identification function after loading the image
+                    } catch (error) {
+                        console.error('Error processing image:', error);
+                        alert('画像処理中にエラーが発生しました。');
+                    }
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('画像ファイルを選択してください。');
+            }
+        }
+
+        function displaySelectedPhoto(src) {
+    const photoContainer = document.getElementById('photoContainer');
+
+    // Create a new container for each photo and its labels
+    const photoWrapper = document.createElement('div');
+    photoWrapper.classList.add('photo-wrapper');
+
+    // Add the image
+    const img = document.createElement('img');
+    img.src = src;
+    img.classList.add('captured-photo');
+    photoWrapper.appendChild(img);
+
+    // Add an element to hold labels for this specific photo
+    const labelContainer = document.createElement('ul');
+    labelContainer.classList.add('labels-list');
+    photoWrapper.appendChild(labelContainer);
+
+    // Append the photoWrapper to the main photoContainer
+    photoContainer.appendChild(photoWrapper);
+
+    // Store the photo in localStorage
+    storePhoto(src);
+}
+
+function storePhoto(src) {
+    // Retrieve existing photos from localStorage
+    let storedPhotos = JSON.parse(localStorage.getItem('photos')) || [];
+    storedPhotos.push(src); // Add the new photo
+    localStorage.setItem('photos', JSON.stringify(storedPhotos)); // Store the updated list
+}
+
+async function identifyImage() {
+    console.log('Starting image identification...');
+
+    if (!selectedImageDataUrl) {
+        alert('画像データが見つかりません。');
+        return;
+    }
+
+    const requestPayload = {
+        "requests": [
+            {
+                "image": { "content": selectedImageDataUrl },
+                "features": [{ "type": "LABEL_DETECTION", "maxResults": 5 }]
+            }
+        ]
+    };
+
+    try {
+        const response = await fetch('http://localhost:3000/api/vision', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestPayload)
+        });
+
+        const data = await response.json();
+        console.log('Response data:', data); // Log the full response for debugging
+
+        if (data.labels && data.labels.length > 0) {
+            displayLabels(data.labels); // Pass the labels to displayLabels function
+        } else {
+            alert('ラベルが見つかりませんでした。');
+        }
+    } catch (error) {
+        console.error('Error detecting labels:', error);
+        alert('ラベルの識別中にエラーが発生しました。');
+    }
+}
+
+
+function displayLabels(labels) {
+    const photoWrappers = document.getElementsByClassName('photo-wrapper');
+    const latestWrapper = photoWrappers[photoWrappers.length - 1];
+    const labelContainer = latestWrapper.querySelector('.labels-list');
+
+    labelContainer.innerHTML = ''; // Clear previous labels if any
+
+    if (labels && labels.length > 0) {
+        // Display only the first label's description
+        const firstLabel = labels[0];
+        const listItem = document.createElement('li');
+        listItem.textContent = firstLabel.description; // Display only the label description
+        labelContainer.appendChild(listItem);
+    } else {
+        const noLabelItem = document.createElement('li');
+        noLabelItem.textContent = 'ラベルが見つかりませんでした。';
+        labelContainer.appendChild(noLabelItem);
+    }
+}
+        function captureAndShare() {
+            html2canvas(document.body).then((canvas) => {
+                const imageDataUrl = canvas.toDataURL("image/png");
+                const shareWindow = window.open("", "_blank", "width=600,height=500");
+
+                shareWindow.document.write(`
+                    <html>
+                    <head>
+                        <title>Share Screenshot</title>
+                        <style>
+                            .share-sns {
+                                display: flex;
+                                justify-content: space-between;
+                                margin-top: 20px;
+                                padding: 10px;
+                            }
+                            .share-sns a {
+                                border: 1px solid #FF5722;
+                                background-color: #fff;
+                                color: #FF5722;
+                                text-decoration: none;
+                                padding: 10px;
+                                border-radius: 4px;
+                                display: flex;
+                                align-items: center;
+                                transition: 0.5s;
+                            }
+                            .share-sns a:hover {
+                                color: #fff;
+                                background-color: #FF5722;
+                            }
+                            img {
+                                max-width: 100%;
+                                margin-top: 10px;
+                                border-radius: 8px;
+                                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <h2>Share Your Screenshot</h2>
+                        <img src="${imageDataUrl}" alt="Screenshot" />
+                        <div class="share-sns">
+                            <a href="https://twitter.com/intent/tweet?url=YOUR_PAGE_URL&text=Check out my screenshot!" target="_blank" onclick="window.open(this.href, '_blank', 'width=600,height=400'); return false;">Twitter</a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=YOUR_PAGE_URL" target="_blank" onclick="window.open(this.href, '_blank', 'width=600,height=400'); return false;">Facebook</a>
+                            <a href="https://social-plugins.line.me/lineit/share?url=YOUR_PAGE_URL" target="_blank" onclick="window.open(this.href, '_blank', 'width=600,height=400'); return false;">LINE</a>
+                        </div>
+                    </body>
+                    </html>
+                `);
+
+                shareWindow.document.close();
+            });
+        }
+    </script>
+
+    <nav class="navbar">
+        <button onclick="window.location.href='index.html'">ホーム</button>
+        <button onclick="goToEncyclopedia()">生物調査</button>
+        <button onclick="window.location.href='gallery.html'">生物図鑑</button>
+        <button>クイズ</button>
+    </nav>
+</body>
+</html>
