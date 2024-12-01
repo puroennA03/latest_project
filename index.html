@@ -5,8 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eco-Tourist</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLw4sft_50tOYHYa109TPHqPsV8Tftf58"></script>
+    <script>
+        function initMap() {
+            // Map options
+            var options = {
+                zoom: 6,
+                center: { lat: 36.2048, lng: 138.2529 } // Centered on Japan
+            };
+
+            // New map
+            var map = new google.maps.Map(document.getElementById("map"), options);
+
+            // Locations with coordinates
+            var locations = [
+                { name: "飯能市", lat: 35.8579, lng: 139.3216 },
+                { name: "渡嘉敷村", lat: 26.1978, lng: 127.3654 },
+                { name: "座間味村", lat: 26.2292, lng: 127.3099 },
+                { name: "谷川岳", lat: 36.8177, lng: 139.0236 },
+                { name: "鳥羽市", lat: 34.4875, lng: 136.8431 },
+                { name: "名張市", lat: 34.6286, lng: 136.1031 },
+                { name: "南丹市美山", lat: 35.2392, lng: 135.6716 },
+                { name: "小笠原", lat: 27.0935, lng: 142.2132 },
+                { name: "弟子屈町", lat: 43.4825, lng: 144.4587 },
+                { name: "上市まちのわ", lat: 36.7056, lng: 137.3239 },
+                { name: "石鎚山系", lat: 33.7623, lng: 133.1184 },
+                { name: "串間", lat: 31.4722, lng: 131.2271 },
+                { name: "奄美市", lat: 28.3762, lng: 129.4947 },
+                { name: "檜原村", lat: 35.7288, lng: 139.0848 },
+                { name: "下呂市", lat: 35.8052, lng: 137.2446 },
+                { name: "赤城山", lat: 36.5293, lng: 139.2028 },
+                { name: "阿蘇ジオパーク", lat: 32.8833, lng: 131.1042 },
+                { name: "吉野川紀の川源流", lat: 33.8484, lng: 135.8639 },
+                { name: "宮島", lat: 34.2958, lng: 132.3198 },
+                { name: "白川郷", lat: 36.2606, lng: 136.8997 },
+                { name: "軽井沢町", lat: 36.3483, lng: 138.5915 },
+                { name: "群馬県 みなかみ町", lat: 36.6786, lng: 138.9842 },
+                { name: "竹富町西表島", lat: 24.3161, lng: 123.8444 },
+                { name: "東近江市", lat: 35.1094, lng: 136.1815 }
+            ];
+
+            // Add markers with info windows
+            locations.forEach(function(location) {
+                var marker = new google.maps.Marker({
+                    position: { lat: location.lat, lng: location.lng },
+                    map: map,
+                    title: location.name
+                });
+
+                var infoWindow = new google.maps.InfoWindow({
+                    content: `<div style="font-size:14px;"><b>${location.name}</b></div>`
+                });
+
+                // Show info window on marker click
+                marker.addListener("click", function() {
+                    infoWindow.open(map, marker);
+                });
+            });
+        }
+    </script>
 </head>
-<body>
+<body onload="initMap()">
     <header>
         <div class="title">
             <h1>Eco-Tourist</h1>
@@ -26,6 +85,12 @@
                 <button class="card-btn" onclick="goToEncyclopedia()">生物調査</button>
                 <p>自然の中での発見！自分だけの発見を持ち帰ろう！</p>
             </div>
+        </section>
+        <section class="cards" style="display: flex; justify-content: center; align-items: flex-start; flex-wrap: wrap;"></section>
+
+        <section id="map-section">
+            <h2>Explore Locations</h2>
+            <div id="map" style="width: 100vw; height: 600px;"></div>
         </section>
     </main>
 
