@@ -45,23 +45,31 @@
     </main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     const photoContainer = document.getElementById('photoContainer');
 
-    // Load photos from localStorage
+    // Load photos and results from localStorage
     const storedPhotos = JSON.parse(localStorage.getItem('photos')) || [];
-    storedPhotos.forEach((photoURL) => {
+    storedPhotos.forEach(({ photoURL, result }) => {
         const photoWrapper = document.createElement('div');
         photoWrapper.classList.add('photo-wrapper');
 
+        // Add photo
         const img = document.createElement('img');
         img.src = photoURL;
         img.classList.add('captured-photo');
 
+        // Add identification result
+        const resultText = document.createElement('p');
+        resultText.textContent = `識別結果: ${result}`;
+        resultText.classList.add('result-text');
+
         photoWrapper.appendChild(img);
+        photoWrapper.appendChild(resultText);
         photoContainer.appendChild(photoWrapper);
     });
 });
+
 
         function processImage(event) {
             const file = event.target.files[0];
