@@ -144,8 +144,8 @@ function startCamera() {
         });
 }
 
-// Function to take a photo, upload, and redirect to creature.html with results
-async function takePhotoAndIdentify() {
+// Function to take a photo and save it
+function takePhoto() {
     const video = document.getElementById('cameraFeed');
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
@@ -157,40 +157,34 @@ async function takePhotoAndIdentify() {
     // Draw the current video frame onto the canvas
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    // Convert canvas to Base64 image URL
+    // Convert canvas to image URL
     const photoURL = canvas.toDataURL('image/jpeg');
 
-    // Perform identification using an API or ML model
-    const result = await identifyImage(photoURL);
-
-    // Save photo and identification result to localStorage
-    const storedPhotos = JSON.parse(localStorage.getItem('photos')) || [];
-    storedPhotos.push({ photoURL, result });
+    // Save the photo URL to localStorage
+    let storedPhotos = JSON.parse(localStorage.getItem('photos')) || [];
+    storedPhotos.push(photoURL);
     localStorage.setItem('photos', JSON.stringify(storedPhotos));
 
-    // Redirect to creature.html
-    window.location.href = 'creature.html';
+    // Notify the user
+    alert('写真が保存されました！');
 }
 
-// Function to identify the image (mock example using a hypothetical API)
-async function identifyImage(base64Image) {
-    try {
-        const response = await fetch('https://example.com/identify', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ image: base64Image }),
-        });
+        // Function to start the camera
+        function startCamera() {
+            const video = document.getElementById('cameraFeed');
+            video.style.display = 'block';
 
-        if (!response.ok) throw new Error('Error identifying image');
-        const data = await response.json();
-        return data.result; // Assuming the result is returned as "data.result"
-    } catch (error) {
-        console.error('Image identification error:', error);
-        return 'Unknown species'; // Fallback result
-    }
-}
+            // Access the user's camera
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } })
+                .then((stream) => {
+                    video.srcObject = stream;
+                })
+                .catch((error) => {
+                    console.error('Error accessing camera:', error);
+                    alert('カメラにアクセスできませんでした。カメラの設定を確認してください。');
+                });
+        }
+
         // Function to navigate to the encyclopedia page
         function goToEncyclopedia() {
             window.location.href = 'creature.html';
