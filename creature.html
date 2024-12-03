@@ -45,19 +45,23 @@
     </main>
 
     <script>
-         document.addEventListener('DOMContentLoaded', () => {
-            const uploadInput = document.getElementById('uploadInput');
-            const uploadButton = document.getElementById('uploadButton');
-            
-            // Bind the upload button to trigger file input click
-            uploadButton.addEventListener('click', () => uploadInput.click());
-            
-            // Bind the input change event to process uploaded images
-            uploadInput.addEventListener('change', processImage);
+        document.addEventListener('DOMContentLoaded', () => {
+    const photoContainer = document.getElementById('photoContainer');
 
-            // Load stored photos when the page loads
-            loadStoredPhotos();
-        });
+    // Load photos from localStorage
+    const storedPhotos = JSON.parse(localStorage.getItem('photos')) || [];
+    storedPhotos.forEach((photoURL) => {
+        const photoWrapper = document.createElement('div');
+        photoWrapper.classList.add('photo-wrapper');
+
+        const img = document.createElement('img');
+        img.src = photoURL;
+        img.classList.add('captured-photo');
+
+        photoWrapper.appendChild(img);
+        photoContainer.appendChild(photoWrapper);
+    });
+});
 
         function processImage(event) {
             const file = event.target.files[0];
