@@ -6,7 +6,8 @@ import { execFile } from 'child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
+const cors = require('cors');
+const express = require('express');
 const app = express();
 const PORT = 3000;
 
@@ -42,7 +43,13 @@ app.get('/api/search', (req, res) => {
     });    
 });
 
-// Start the server
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+// Allow all origins (or specify the GitHub Pages URL)
+app.use(cors());
+
+app.get('/api/searchAnimal', (req, res) => {
+    res.json({ message: 'CORS enabled!' });
+});
+
+app.listen(3000, () => {
+    console.log('Server running on http://localhost:3000');
 });
