@@ -144,27 +144,31 @@ function startCamera() {
         });
 }
 
-// Function to take a photo
+// Function to take a photo and save it
 function takePhoto() {
     const video = document.getElementById('cameraFeed');
-    const canvas = document.getElementById('photoCanvas');
+    const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
 
     // Set canvas size to match video
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
 
-    // Draw the current frame from the video onto the canvas
+    // Draw the current video frame onto the canvas
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    // Display the canvas (photo)
-    canvas.style.display = 'block';
+    // Convert canvas to image URL
+    const photoURL = canvas.toDataURL('image/jpeg');
 
-    // Optionally stop the camera after taking a photo
-    // if (videoStream) {
-    //     videoStream.getTracks().forEach(track => track.stop());
-    // }
+    // Save the photo URL to localStorage
+    let storedPhotos = JSON.parse(localStorage.getItem('photos')) || [];
+    storedPhotos.push(photoURL);
+    localStorage.setItem('photos', JSON.stringify(storedPhotos));
+
+    // Notify the user
+    alert('写真が保存されました！');
 }
+
         // Function to start the camera
         function startCamera() {
             const video = document.getElementById('cameraFeed');
