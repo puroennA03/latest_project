@@ -1,0 +1,250 @@
+/* Reset and basic styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #C4D8C7; /* Light green background */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Header Styling */
+header {
+    text-align: center;
+    padding: 20px;
+    color: #333;
+    width: 100%;
+}
+
+.title h1 {
+    font-size: 2.5em; /* Larger header font */
+    color: #2c7a7b; /* Darker green for main title */
+}
+
+.title p {
+    font-size: 1.2em;
+    color: #666; /* Gray subtitle */
+}
+
+/* Main Card Section */
+.cards, .action-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    max-width: 800px;
+}
+
+.card {
+    width: 30%;
+    background-color: #E8F0E8; /* Card background color */
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Common button styling */
+.card-btn, .action-btn {
+    background-color: #6B8E23; /* Dark green button */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.card-btn:hover, .action-btn:hover {
+    background-color: #556B2F; /* Darker green on hover */
+}
+
+/* Style for the file input to make it appear like a button */
+.file-input {
+    display: inline-block;
+    background-color: #6B8E23;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    text-align: center;
+    width: auto;
+    margin-left: 10px;
+}
+
+.file-input:hover {
+    background-color: #556B2F;
+}
+
+/* Navbar Styling */
+.navbar {
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+    background-color: #556B2F; /* Darker footer */
+    color: white;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+}
+
+.navbar button {
+    background: none;
+    color: white;
+    border: none;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.navbar button:hover {
+    color: #ddf3f5; /* Light green on hover */
+}
+
+/* Horizontal layout for action container */
+.action-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    max-width: 100%;
+    margin: 20px auto;
+}
+
+/* Styling for the photo gallery */
+.photo-gallery {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.photo-gallery h2 {
+    color: #2c7a7b;
+    margin-bottom: 10px;
+}
+
+.photo-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    gap: 50px; /* Space between photos */
+    max-width: 100%;
+    padding: 50px;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+.photo-container::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Edge */
+}
+
+.captured-photo {
+    width: 200px; /* Set a fixed width */
+    height: 200px; /* Set a fixed height */
+    object-fit: cover; /* Ensures the image fills the area without distortion */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Styling for video element */
+#cameraFeed {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    padding: 20px;
+}
+
+.gallery-photo {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.photo-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.cancel-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.cancel-button:hover {
+    background-color: darkred;
+}
+
+/* 投稿 button on the main page */
+.upload-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.upload-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+/* Popup styles for share buttons */
+.share-sns {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.share-sns a {
+    border: 1px solid #FF5722;
+    background-color: #fff;
+    color: #FF5722;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    transition: 0.3s;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.share-sns a:hover {
+    color: #fff;
+    background-color: #FF5722;
+}
+
+/* Image styling inside the popup */
+.share-sns img {
+    max-width: 100%;
+    margin-top: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
