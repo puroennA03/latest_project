@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eco-Tourist</title>
     <link rel="stylesheet" href="style.css">
+    <script src="functions.js" defer></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLw4sft_50tOYHYa109TPHqPsV8Tftf58"></script>
     <script>
         function initMap() {
@@ -86,8 +87,14 @@
                 <p>自然の中での発見！自分だけの発見を持ち帰ろう！</p>
             </div>
         </section>
+    </main>
+        <section class="search-section">
+            <h2>動物の生息地を検索</h2>
+            <input type="text" id="animalSearchInput" placeholder="動物の名前を入力 (例: ツキノワグマ)">
+            <button onclick="searchHabitat()">検索</button>
+            <p id="searchResult"></p>
+        </section>
         <section class="cards" style="display: flex; justify-content: center; align-items: flex-start; flex-wrap: wrap;"></section>
-
         <section id="map-section">
             <h2>Explore Locations</h2>
             <div id="map" style="width: 100vw; height: 600px;"></div>
@@ -98,6 +105,7 @@
         <button onclick="window.location.href='index.html'">ホーム</button>
         <button onclick="goToEncyclopedia()">生物調査</button>
         <button onclick="window.location.href='gallery.html'">生物図鑑</button>
+        <button onclick="window.location.href='test.html'">生物図鑑</button>
         <button>クイズ</button>
     </nav>
 
