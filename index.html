@@ -93,6 +93,11 @@
                 <!-- Video element to show camera feed -->
                 <video id="cameraFeed" autoplay playsinline style="display: none; width: 100%; border-radius: 8px;"></video>
             </div>
+            <div class="camera-controls">
+                <button onclick="takePhoto()">📸 撮影する</button>
+                <canvas id="photoCanvas" style="display: none; width: 100%; border-radius: 8px;"></canvas>
+            </div>
+            
             <div class="card">
                 <button class="card-btn" onclick="goToEncyclopedia()">生物調査</button>
                 <p>自然の中での発見！自分だけの発見を持ち帰ろう！</p>
@@ -121,13 +126,52 @@
     </nav>
 
     <script>
+        let videoStream = null;
+
+// Function to start the camera
+function startCamera() {
+    const video = document.getElementById('cameraFeed');
+    video.style.display = 'block';
+
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } })
+        .then((stream) => {
+            videoStream = stream;
+            video.srcObject = stream;
+        })
+        .catch((error) => {
+            console.error('Error accessing camera:', error);
+            alert('カメラにアクセスできませんでした。カメラの設定を確認してください。');
+        });
+}
+
+// Function to take a photo
+function takePhoto() {
+    const video = document.getElementById('cameraFeed');
+    const canvas = document.getElementById('photoCanvas');
+    const context = canvas.getContext('2d');
+
+    // Set canvas size to match video
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    // Draw the current frame from the video onto the canvas
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // Display the canvas (photo)
+    canvas.style.display = 'block';
+
+    // Optionally stop the camera after taking a photo
+    // if (videoStream) {
+    //     videoStream.getTracks().forEach(track => track.stop());
+    // }
+}
         // Function to start the camera
         function startCamera() {
             const video = document.getElementById('cameraFeed');
             video.style.display = 'block';
 
             // Access the user's camera
-                navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } })
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } })
                 .then((stream) => {
                     video.srcObject = stream;
                 })
