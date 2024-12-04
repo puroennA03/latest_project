@@ -1,4 +1,3 @@
-/* Reset and basic styling */
 * {
     margin: 0;
     padding: 0;
@@ -7,7 +6,9 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #C4D8C7; /* Light green background */
+    background-image: url(bg.jpg);
+    background-size: 100%;
+    background-attachment: fixed; 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -15,30 +16,52 @@ body {
 
 /* Header Styling */
 header {
+    background-color: rgba(138, 184, 138, 0.658);
     text-align: center;
     padding: 20px;
     color: #333;
     width: 100%;
 }
 
+.sample{
+    border-radius: 35px;
+}
+
+.maps{
+    border-radius: 35px;
+    margin-bottom:100px;
+    display: flex;
+    justify-content: space-around;
+    gap: 40px;
+    padding: 80px;
+    max-width: 1600px;
+}
+
+
 .title h1 {
     font-size: 2.5em; /* Larger header font */
-    color: #2c7a7b; /* Darker green for main title */
+    color: #ffffff; /* Darker green for main title */
+}
+.title h2 {
+    font-size: 2.5em; /* Larger header font */
+    text-align: center
 }
 
 .title p {
     font-size: 1.2em;
-    color: #666; /* Gray subtitle */
+    color: #ffffff; /* Gray subtitle */
 }
 
 /* Main Card Section */
 .cards, .action-container {
+    margin:0%;
     display: flex;
-    justify-content: center;
-    gap: 20px;
+    justify-content: space-around;
+    gap: 40px;
     padding: 20px;
-    max-width: 800px;
+    max-width: 1600px;
 }
+
 
 .card {
     width: 30%;
@@ -51,7 +74,24 @@ header {
 
 /* Common button styling */
 .card-btn, .action-btn {
-    background-color: #6B8E23; /* Dark green button */
+    background-color: rgb(138, 184, 138); /* Dark green button */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 1em;
+}
+
+.card-btn:hover, .action-btn:hover {
+    background-color: rgb(138, 184, 138); /* Darker green on hover */
+}
+
+/* Style for the file input to make it appear like a button */
+.file-input {
+    display: inline-block;
+    background-color: rgb(138, 184, 138);
     color: white;
     border: none;
     border-radius: 10px;
@@ -62,35 +102,16 @@ header {
     font-size: 1em;
 }
 
-.card-btn:hover, .action-btn:hover {
-    background-color: #556B2F; /* Darker green on hover */
-}
-
-/* Style for the file input to make it appear like a button */
-.file-input {
-    display: inline-block;
-    background-color: #6B8E23;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 10px;
-    cursor: pointer;
-    font-size: 1em;
-    text-align: center;
-    width: auto;
-    margin-left: 10px;
-}
-
 .file-input:hover {
-    background-color: #556B2F;
+    background-color: rgba(138, 184, 138, 0.705);
 }
 
 /* Navbar Styling */
 .navbar {
     display: flex;
     justify-content: space-around;
-    padding: 15px;
-    background-color: #556B2F; /* Darker footer */
+    padding: 20px;
+    background-color: rgba(138, 184, 138, 0.774); /* Darker footer */
     color: white;
     width: 100%;
     position: fixed;
@@ -101,7 +122,7 @@ header {
     background: none;
     color: white;
     border: none;
-    font-size: 1em;
+    font-size: 30px;
     cursor: pointer;
 }
 
@@ -126,7 +147,7 @@ header {
 }
 
 .photo-gallery h2 {
-    color: #2c7a7b;
+    color: #e4faeb1c;
     margin-bottom: 10px;
 }
 
@@ -247,4 +268,59 @@ header {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+/*検索ボックス*/
 
+form, input {
+    margin: 0; /* マージンをリセット */
+  }
+  form {
+    position: relative; /* 基準位置とする */
+    size: auto;
+  }
+  input[type="search"] {
+    border-radius: 35px;
+    background-color: #a4b89f;
+    border: 0;
+    height: 40px; /* 高さ40px */
+    width: auto;
+    padding: 0 97px; 
+    position: relative;
+    left: 0;
+    top: 0; 
+  }
+
+
+  .box{
+    margin:auto;
+    display: flex;
+    justify-content: space-around;
+    gap: 40px;
+    padding: 40px;
+    max-width: 1600px;
+  }
+
+  .boxes{
+
+    background-color: #E8F0E8; /* Card background color */
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .box-btn{
+    background-color: rgb(138, 184, 138); /* Dark green button */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 1em;
+    position: center;
+}
+
+.resizephoto{
+    width: 500px;
+    height: 500px;
+}
