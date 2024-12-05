@@ -135,13 +135,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // Translate and fetch details
                     const translatedPrediction = await translateToJapanese(topPrediction);
-                    const detailText = await fetchWikipediaDetails(topPrediction);
 
                     resultsDiv.innerHTML = `
                         <h2>識別結果</h2>
                         <p>英語名: ${topPrediction}</p>
                         <p>日本語名: ${translatedPrediction}</p>
-                        <p>詳細情報: ${detailText}</p>
                     `;
                 } else {
                     resultsDiv.innerHTML = "<p>識別結果が見つかりません。</p>";
@@ -161,17 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (err) {
             console.error("翻訳エラー: ", err);
             return "翻訳エラー";
-        }
-    }
-
-    // Fetch Wikipedia details
-    async function fetchWikipediaDetails(query) {
-        try {
-            const response = await axios.get(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`);
-            return response.data.extract || "詳細情報が見つかりませんでした。";
-        } catch (err) {
-            console.error("APIエラー: ", err);
-            return "APIエラー";
         }
     }
 
