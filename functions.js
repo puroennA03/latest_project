@@ -42,7 +42,7 @@ function searchHabitat() {
         return;
     }
 
-    fetch(`/api/search?animal=${encodeURIComponent(animalName)}`)
+    fetch(`http://localhost:3000/api/search?animal=${encodeURIComponent(animalName)}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
