@@ -45,80 +45,145 @@
     </main>
 
     <script>
-         document.addEventListener('DOMContentLoaded', () => {
-            const uploadInput = document.getElementById('uploadInput');
-            const uploadButton = document.getElementById('uploadButton');
-            
-            // Bind the upload button to trigger file input click
-            uploadButton.addEventListener('click', () => uploadInput.click());
-            
-            // Bind the input change event to process uploaded images
-            uploadInput.addEventListener('change', processImage);
+document.addEventListener('DOMContentLoaded', () => {
+    const uploadInput = document.getElementById('uploadInput');
+    const uploadButton = document.getElementById('uploadButton');
+    const captureButton = document.getElementById('captureButton');
+    const identifyButton = document.getElementById('identifyButton');
+    const resultsDiv = document.getElementById('results');
+    const photoContainer = document.getElementById('photoContainer');
+    let selectedImage = null; // Global variable for storing the selected image
 
-            // Load stored photos when the page loads
-            loadStoredPhotos();
+    // Bind the upload button to trigger file input click
+    uploadButton.addEventListener('click', () => uploadInput.click());
+
+    // Bind the input change event to process uploaded images
+    uploadInput.addEventListener('change', handleImageUpload);
+
+    // Event for identification button (optional for manual trigger)
+    identifyButton.addEventListener('click', identifyImage);
+
+    // Camera capture logic (existing)
+    captureButton.addEventListener('click', async () => {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const camera = document.getElementById("camera");
+        const snapshotCanvas = document.getElementById("snapshotCanvas");
+        const context = snapshotCanvas.getContext("2d");
+
+        camera.srcObject = stream;
+        camera.hidden = false;
+        snapshotCanvas.hidden = false;
+
+        camera.addEventListener("click", () => {
+            snapshotCanvas.width = camera.videoWidth;
+            snapshotCanvas.height = camera.videoHeight;
+            context.drawImage(camera, 0, 0);
+            selectedImage = snapshotCanvas.toDataURL("image/jpeg");
+            displaySelectedPhoto(selectedImage);
+            stopCamera(stream);
+            identifyImage(); // Automatically identify the captured image
         });
+    });
 
-        function processImage(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    try {
-                        const src = e.target.result; // Base64 image URL
-                        displaySelectedPhoto(src); // Append photo to the gallery
-                        storePhoto(src); // Save to localStorage
-                    } catch (error) {
-                        console.error('Error processing image:', error);
-                        alert('画像処理中にエラーが発生しました。');
-                    }
-                };
-                reader.readAsDataURL(file);
-            } else {
-                alert('画像ファイルを選択してください。');
-            }
+    // Handle uploaded images and automatically identify
+    function handleImageUpload(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                selectedImage = e.target.result; // Store the image globally
+                displaySelectedPhoto(selectedImage); // Append the photo to the gallery
+                storePhoto(selectedImage); // Save to localStorage
+                identifyImage(); // Automatically identify the uploaded image
+            };
+            reader.readAsDataURL(file);
+        } else {
+            alert('画像ファイルを選択してください。');
+        }
+    }
+
+    // Display selected photo in the gallery
+    function displaySelectedPhoto(src) {
+        const photoWrapper = document.createElement('div');
+        photoWrapper.classList.add('photo-wrapper');
+
+        const img = document.createElement('img');
+        img.src = src;
+        img.classList.add('captured-photo');
+        photoWrapper.appendChild(img);
+
+        photoContainer.appendChild(photoWrapper);
+    }
+
+    // Identify the image using MobileNet
+    async function identifyImage() {
+        if (!selectedImage) {
+            resultsDiv.innerHTML = "<p>画像を選択してください。</p>";
+            return;
         }
 
-        function displaySelectedPhoto(src) {
-            const photoContainer = document.getElementById('photoContainer');
+        resultsDiv.innerHTML = "<p>識別中...</p>";
 
-            // Create a new container for each photo
-            const photoWrapper = document.createElement('div');
-            photoWrapper.classList.add('photo-wrapper');
+        try {
+            const model = await mobilenet.load();
+            const imageElement = new Image();
+            imageElement.src = selectedImage;
+            imageElement.onload = async () => {
+                const predictions = await model.classify(imageElement);
+                if (predictions.length > 0) {
+                    const topPrediction = predictions[0].className;
 
-            // Add the image
-            const img = document.createElement('img');
-            img.src = src;
-            img.classList.add('captured-photo');
-            photoWrapper.appendChild(img);
+                    // Translate and fetch details
+                    const translatedPrediction = await translateToJapanese(topPrediction);
+                    const detailText = await fetchWikipediaDetails(topPrediction);
 
-            // Append the photoWrapper to the main photoContainer
-            photoContainer.appendChild(photoWrapper);
+                    resultsDiv.innerHTML = `
+                        <h2>識別結果</h2>
+                        <p>英語名: ${topPrediction}</p>
+                        <p>日本語名: ${translatedPrediction}</p>
+                        <p>詳細情報: ${detailText}</p>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = "<p>識別結果が見つかりません。</p>";
+                }
+            };
+        } catch (error) {
+            console.error('Error identifying image:', error);
+            resultsDiv.innerHTML = "<p>識別エラーが発生しました。</p>";
         }
+    }
 
-        function storePhoto(src) {
-            // Retrieve existing photos from localStorage
-            let storedPhotos = JSON.parse(localStorage.getItem('photos')) || [];
-            storedPhotos.push(src); // Add the new photo
-            localStorage.setItem('photos', JSON.stringify(storedPhotos)); // Store the updated list
+    // Translate English text to Japanese
+    async function translateToJapanese(text) {
+        try {
+            const response = await axios.get(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|ja`);
+            return response.data.responseData.translatedText || "翻訳エラー";
+        } catch (err) {
+            console.error("翻訳エラー: ", err);
+            return "翻訳エラー";
         }
+    }
 
-        function loadStoredPhotos() {
-            const photoContainer = document.getElementById('photoContainer');
-            const storedPhotos = JSON.parse(localStorage.getItem('photos')) || [];
-
-            storedPhotos.forEach((src) => {
-                const photoWrapper = document.createElement('div');
-                photoWrapper.classList.add('photo-wrapper');
-
-                const img = document.createElement('img');
-                img.src = src;
-                img.classList.add('captured-photo');
-                photoWrapper.appendChild(img);
-
-                photoContainer.appendChild(photoWrapper);
-            });
+    // Fetch Wikipedia details
+    async function fetchWikipediaDetails(query) {
+        try {
+            const response = await axios.get(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`);
+            return response.data.extract || "詳細情報が見つかりませんでした。";
+        } catch (err) {
+            console.error("APIエラー: ", err);
+            return "APIエラー";
         }
+    }
+
+    // Stop the camera feed
+    function stopCamera(stream) {
+        const tracks = stream.getTracks();
+        tracks.forEach(track => track.stop());
+        const camera = document.getElementById("camera");
+        camera.hidden = true;
+    }
+});
+
         function captureAndShare() {
             html2canvas(document.body).then((canvas) => {
                 const imageDataUrl = canvas.toDataURL("image/png");
@@ -171,117 +236,6 @@
 
                 shareWindow.document.close();
             });
-        }
-        const camera = document.getElementById("camera");
-        const snapshotCanvas = document.getElementById("snapshotCanvas");
-        const uploadInput = document.getElementById("uploadInput");
-        const captureButton = document.getElementById("captureButton");
-        const uploadButton = document.getElementById("uploadButton");
-        const identifyButton = document.getElementById("identifyButton");
-        const resultsDiv = document.getElementById("results");
-
-        let selectedImage = null;
-
-        // アップロードボタンを押すとファイル選択を表示
-        uploadButton.addEventListener("click", () => {
-            uploadInput.click();
-        });
-
-        // カメラ起動
-        captureButton.addEventListener("click", async () => {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            camera.srcObject = stream;
-            camera.hidden = false;
-            snapshotCanvas.hidden = false;
-        });
-
-        // 写真撮影
-        camera.addEventListener("click", () => {
-            const context = snapshotCanvas.getContext("2d");
-            snapshotCanvas.width = camera.videoWidth;
-            snapshotCanvas.height = camera.videoHeight;
-            context.drawImage(camera, 0, 0);
-            selectedImage = snapshotCanvas.toDataURL("image/jpeg");
-            resultsDiv.innerHTML = "<p>写真が選択されました。</p>";
-            stopCamera();
-        });
-
-        // カメラ停止
-        function stopCamera() {
-            const stream = camera.srcObject;
-            const tracks = stream.getTracks();
-            tracks.forEach(track => track.stop());
-            camera.hidden = true;
-        }
-
-        // ファイルアップロード
-        uploadInput.addEventListener("change", (event) => {
-            const file = event.target.files[0];
-            const reader = new FileReader();
-            reader.onload = () => {
-                selectedImage = reader.result;
-                resultsDiv.innerHTML = "<p>ファイルが選択されました。</p>";
-            };
-            reader.readAsDataURL(file);
-        });
-
-        // 識別ボタン
-        identifyButton.addEventListener("click", async () => {
-            if (!selectedImage) {
-                resultsDiv.innerHTML = "<p>画像を選択してください。</p>";
-                return;
-            }
-
-            resultsDiv.innerHTML = "<p>識別中...</p>";
-
-            // MobileNetでの識別処理
-            const model = await mobilenet.load();
-            const imageElement = new Image();
-            imageElement.src = selectedImage;
-            imageElement.onload = async () => {
-                const predictions = await model.classify(imageElement);
-                if (predictions.length > 0) {
-                    const topPrediction = predictions[0].className;
-
-                    // 翻訳処理
-                    const translatedPrediction = await translateToJapanese(topPrediction);
-
-                    // Wikipedia情報取得
-                    const detailText = await fetchWikipediaDetails(topPrediction);
-
-                    // 結果をHTMLに表示
-                    resultsDiv.innerHTML = `
-                        <h2>識別結果</h2>
-                        <p>英語名: ${topPrediction}</p>
-                        <p>日本語名: ${translatedPrediction}</p>
-                        <p>詳細情報: ${detailText}</p>
-                    `;
-                } else {
-                    resultsDiv.innerHTML = "<p>識別結果が見つかりません。</p>";
-                }
-            };
-        });
-
-        // 翻訳処理
-        async function translateToJapanese(text) {
-            try {
-                const response = await axios.get(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|ja`);
-                return response.data.responseData.translatedText || "翻訳エラー";
-            } catch (err) {
-                console.error("翻訳エラー: ", err);
-                return "翻訳エラー";
-            }
-        }
-
-        // Wikipedia APIで詳細情報取得
-        async function fetchWikipediaDetails(query) {
-            try {
-                const response = await axios.get(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`);
-                return response.data.extract || "詳細情報が見つかりませんでした。";
-            } catch (err) {
-                console.error("APIエラー: ", err);
-                return "APIエラー";
-            }
         }
     </script>
 
