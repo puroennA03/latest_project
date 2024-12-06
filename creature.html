@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>生物調査</title>
     <link rel="stylesheet" href="style.css">
+    <script src="functions.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
@@ -25,22 +26,21 @@
                 <p>野生の生き物の写真を撮りましょう！</p>
                 <video id="cameraFeed" autoplay playsinline style="display: none; width: 100%; border-radius: 8px;"></video>
             </section>
+        </div>
 
             <video id="camera" autoplay hidden></video>
             <canvas id="snapshotCanvas" hidden></canvas>
             <div id="results"></div>
-            
-            <section class="card">
-                <button class="action-btn" onclick="captureAndShare()">投稿</button>
-                <p>見つけたものをSNSに投稿しよう！</p>
-            </section>
-        </div>
-
         <section class="photo-gallery">
-            <h2>最近撮った生物</h2>
             <div id="photoContainer" class="photo-container"></div>
         </section>
 
+        <div class="action-container">
+            <section class="card">
+                <button class="action-btn" onclick="captureAndShare()">写真ギャラリー</button>
+                <p>見つけたものをSNSに投稿しよう！</p>
+            </section>
+        </div>
     </main>
 
     <script>
@@ -202,10 +202,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     </script>
 
-    <nav class="navbar">
-        <button onclick="window.location.href='index.html'">ホーム</button>
-        <button onclick="goToEncyclopedia()">生物調査</button>
-        <button onclick="window.location.href='gallery.html'">生物図鑑</button>
-    </nav>
+<nav class="navbar">
+    <a href="index.html">
+        <img class="logo" src="home.png" alt="logo">
+    </a>
+    <a href="creature.html">
+        <img class="logo" src="bg-1.png" alt="logo">
+    </a>
+    <a href="creature.html">
+        <img class="logo" src="bg-2.png" alt="logo">
+    </a>
+    <a href="gallery.html">
+        <img class="logo" src="bg-4.png" alt="logo">
+    </a>
+</nav>
 </body>
 </html>
