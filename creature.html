@@ -19,7 +19,6 @@
     <main class="main-content">
         <div class="action-container">
             <section class="card">
-                <button id="captureButton"></button>
                 <button id="uploadButton">画像をアップロード</button>
                 <input type="file" id="uploadInput" accept="image/*" style="display:none;">
                 <button id="identifyButton">識別する</button>
@@ -48,7 +47,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const uploadInput = document.getElementById('uploadInput');
     const uploadButton = document.getElementById('uploadButton');
-    const captureButton = document.getElementById('captureButton');
     const identifyButton = document.getElementById('identifyButton');
     const resultsDiv = document.getElementById('results');
     const photoContainer = document.getElementById('photoContainer');
@@ -62,28 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Event for identification button (optional for manual trigger)
     identifyButton.addEventListener('click', identifyImage);
-
-    // Camera capture logic (existing)
-    captureButton.addEventListener('click', async () => {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        const camera = document.getElementById("camera");
-        const snapshotCanvas = document.getElementById("snapshotCanvas");
-        const context = snapshotCanvas.getContext("2d");
-
-        camera.srcObject = stream;
-        camera.hidden = false;
-        snapshotCanvas.hidden = false;
-
-        camera.addEventListener("click", () => {
-            snapshotCanvas.width = camera.videoWidth;
-            snapshotCanvas.height = camera.videoHeight;
-            context.drawImage(camera, 0, 0);
-            selectedImage = snapshotCanvas.toDataURL("image/jpeg");
-            displaySelectedPhoto(selectedImage);
-            stopCamera(stream);
-            identifyImage(); // Automatically identify the captured image
-        });
-    });
 
     // Handle uploaded images and automatically identify
     function handleImageUpload(event) {
