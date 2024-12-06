@@ -20,50 +20,404 @@
 
             // Locations with coordinates
             var locations = [
-                { name: "埼玉県 飯能市", lat: 35.8579, lng: 139.3216 },
-                { name: "渡嘉敷村", lat: 26.1978, lng: 127.3654 },
-                { name: "座間味村", lat: 26.2292, lng: 127.3099 },
-                { name: "谷川岳", lat: 36.8177, lng: 139.0236 },
-                { name: "三重県 鳥羽市", lat: 34.4875, lng: 136.8431 },
-                { name: "三重県 名張市", lat: 34.6286, lng: 136.1031 },
-                { name: "京都府 南丹市美山", lat: 35.2392, lng: 135.6716 },
-                { name: "小笠原", lat: 27.0935, lng: 142.2132 },
-                { name: "北海道弟子屈町", lat: 43.4825, lng: 144.4587 },
-                { name: "上市まちのわ", lat: 36.7056, lng: 137.3239 },
-                { name: "石鎚山系", lat: 33.7623, lng: 133.1184 },
-                { name: "串間", lat: 31.4722, lng: 131.2271 },
-                { name: "奄美市", lat: 28.3762, lng: 129.4947 },
-                { name: "東京都 檜原村", lat: 35.7288, lng: 139.0848 },
-                { name: "岐阜県 下呂市", lat: 35.8052, lng: 137.2446 },
-                { name: "赤城山", lat: 36.5293, lng: 139.2028 },
-                { name: "熊本県 阿蘇ジオパーク", lat: 32.8833, lng: 131.1042 },
-                { name: "吉野川紀の川源流", lat: 33.8484, lng: 135.8639 },
-                { name: "宮島", lat: 34.2958, lng: 132.3198 },
-                { name: "岐阜県 白川村", lat: 36.2606, lng: 136.8997 },
-                { name: "長野県 軽井沢町", lat: 36.3483, lng: 138.5915 },
-                { name: "群馬県 みなかみ町", lat: 36.6786, lng: 138.9842 },
-                { name: "沖縄県 西表島", lat: 24.3161, lng: 123.8444 },
-                { name: "滋賀県 東近江市", lat: 35.1094, lng: 136.1815 },
-                { name: "青森県 奥入瀬渓流", lat: 40.5230, lng: 140.9738 },
-                { name: "群馬県 前橋市", lat: 36.3896, lng: 139.0622 },
-                { name: "奈良県 川上村", lat: 34.2572, lng: 135.9634 },
-                { name: "愛媛県 西条市", lat: 33.9170, lng: 133.1826 },
-                { name: "鹿児島県 屋久島町", lat: 30.3718, lng: 130.6517 },
-                { name: "鹿児島県 甑島", lat: 31.8114, lng: 129.8700 },
-                { name: "香川県 まんのう町", lat: 34.1419, lng: 133.9630 },
-                { name: "東京都 神津島", lat: 34.1967, lng: 139.1450 },
-                { name: "富山県 上市町", lat: 36.7056, lng: 137.3239 },
-                { name: "広島県 廿日市市",lat: 34.3482, lng: 132.3316 }
+        {
+            name: "埼玉県 飯能市",
+            lat: 35.8579,
+            lng: 139.3216,
+            area: [
+                { lat: 35.850, lng: 139.310 },
+                { lat: 35.860, lng: 139.330 },
+                { lat: 35.865, lng: 139.320 },
+                { lat: 35.855, lng: 139.300 }
+            ]
+        },
+        {
+            name: "渡嘉敷村",
+            lat: 26.1978,
+            lng: 127.3654,
+            area: [
+                { lat: 26.195, lng: 127.360 },
+                { lat: 26.200, lng: 127.370 },
+                { lat: 26.190, lng: 127.375 },
+                { lat: 26.185, lng: 127.360 }
+            ]
+        },
+        {
+            name: "座間味村",
+            lat: 26.2292,
+            lng: 127.3099,
+            area: [
+                { lat: 26.225, lng: 127.305 },
+                { lat: 26.235, lng: 127.315 },
+                { lat: 26.230, lng: 127.320 },
+                { lat: 26.220, lng: 127.310 }
+            ]
+        },
+        {
+            name: "谷川岳",
+            lat: 36.8177,
+            lng: 139.0236,
+            area: [
+                { lat: 36.815, lng: 139.015 },
+                { lat: 36.820, lng: 139.030 },
+                { lat: 36.825, lng: 139.020 },
+                { lat: 36.810, lng: 139.010 }
+            ]
+        },
+        {
+            name: "三重県 鳥羽市",
+            lat: 34.4875,
+            lng: 136.8431,
+            area: [
+                { lat: 34.480, lng: 136.835 },
+                { lat: 34.490, lng: 136.850 },
+                { lat: 34.485, lng: 136.860 },
+                { lat: 34.475, lng: 136.840 }
+            ]
+        },
+        {
+            name: "三重県 名張市",
+            lat: 34.6286,
+            lng: 136.1031,
+            area: [
+                { lat: 34.620, lng: 136.095 },
+                { lat: 34.635, lng: 136.110 },
+                { lat: 34.630, lng: 136.115 },
+                { lat: 34.625, lng: 136.100 }
+            ]
+        },
+        {
+            name: "京都府 南丹市美山",
+            lat: 35.2392,
+            lng: 135.6716,
+            area: [
+                { lat: 35.230, lng: 135.660 },
+                { lat: 35.245, lng: 135.680 },
+                { lat: 35.240, lng: 135.690 },
+                { lat: 35.235, lng: 135.670 }
+            ]
+        },
+        {
+            name: "小笠原",
+            lat: 27.0935,
+            lng: 142.2132,
+            area: [
+                { lat: 27.090, lng: 142.200 },
+                { lat: 27.100, lng: 142.220 },
+                { lat: 27.095, lng: 142.230 },
+                { lat: 27.085, lng: 142.210 }
+            ]
+        },
+        {
+            name: "北海道弟子屈町",
+            lat: 43.4825,
+            lng: 144.4587,
+            area: [
+                { lat: 43.480, lng: 144.450 },
+                { lat: 43.490, lng: 144.460 },
+                { lat: 43.485, lng: 144.470 },
+                { lat: 43.475, lng: 144.455 }
+            ]
+        },
+        {
+            name: "上市まちのわ",
+            lat: 36.7056,
+            lng: 137.3239,
+            area: [
+                { lat: 36.700, lng: 137.320 },
+                { lat: 36.710, lng: 137.330 },
+                { lat: 36.705, lng: 137.340 },
+                { lat: 36.695, lng: 137.325 }
+            ]
+        },
+        {
+            name: "石鎚山系",
+            lat: 33.7623,
+            lng: 133.1184,
+            area: [
+                { lat: 33.760, lng: 133.110 },
+                { lat: 33.765, lng: 133.125 },
+                { lat: 33.770, lng: 133.115 },
+                { lat: 33.755, lng: 133.105 }
+            ]
+        },
+        {
+            name: "串間",
+            lat: 31.4722,
+            lng: 131.2271,
+            area: [
+                { lat: 31.470, lng: 131.220 },
+                { lat: 31.480, lng: 131.230 },
+                { lat: 31.475, lng: 131.240 },
+                { lat: 31.465, lng: 131.225 }
+            ]
+        },
+        {
+            name: "奄美市",
+            lat: 28.3762,
+            lng: 129.4947,
+            area: [
+                { lat: 28.370, lng: 129.490 },
+                { lat: 28.380, lng: 129.500 },
+                { lat: 28.375, lng: 129.510 },
+                { lat: 28.365, lng: 129.495 }
+            ]
+        },
+        {
+            name: "東京都 檜原村",
+            lat: 35.7288,
+            lng: 139.0848,
+            area: [
+                { lat: 35.725, lng: 139.080 },
+                { lat: 35.735, lng: 139.090 },
+                { lat: 35.730, lng: 139.100 },
+                { lat: 35.720, lng: 139.085 }
+            ]
+        },
+        {
+            name: "岐阜県 下呂市",
+            lat: 35.8052,
+            lng: 137.2446,
+            area: [
+                { lat: 35.800, lng: 137.240 },
+                { lat: 35.810, lng: 137.250 },
+                { lat: 35.805, lng: 137.260 },
+                { lat: 35.795, lng: 137.245 }
+            ]
+        },
+        {
+            name: "赤城山",
+            lat: 36.5293,
+            lng: 139.2028,
+            area: [
+                { lat: 36.525, lng: 139.200 },
+                { lat: 36.535, lng: 139.210 },
+                { lat: 36.530, lng: 139.215 },
+                { lat: 36.520, lng: 139.205 }
+            ]
+        },
+        {
+            name: "熊本県 阿蘇ジオパーク",
+            lat: 32.8833,
+            lng: 131.1042,
+            area: [
+                { lat: 32.880, lng: 131.100 },
+                { lat: 32.890, lng: 131.110 },
+                { lat: 32.885, lng: 131.115 },
+                { lat: 32.875, lng: 131.105 }
+            ]
+        },
+        {
+            name: "吉野川紀の川源流",
+            lat: 33.8484,
+            lng: 135.8639,
+            area: [
+                { lat: 33.845, lng: 135.860 },
+                { lat: 33.855, lng: 135.870 },
+                { lat: 33.850, lng: 135.875 },
+                { lat: 33.840, lng: 135.865 }
+            ]
+        },
+        {
+            name: "宮島",
+            lat: 34.2958,
+            lng: 132.3198,
+            area: [
+                { lat: 34.290, lng: 132.310 },
+                { lat: 34.300, lng: 132.330 },
+                { lat: 34.295, lng: 132.335 },
+                { lat: 34.285, lng: 132.320 }
+            ]
+        },
+        {
+            name: "岐阜県 白川村",
+            lat: 36.2606,
+            lng: 136.8997,
+            area: [
+                { lat: 36.255, lng: 136.895 },
+                { lat: 36.265, lng: 136.905 },
+                { lat: 36.260, lng: 136.910 },
+                { lat: 36.250, lng: 136.900 }
+            ]
+        },
+        {
+            name: "長野県 軽井沢町",
+            lat: 36.3483,
+            lng: 138.5915,
+            area: [
+                { lat: 36.345, lng: 138.585 },
+                { lat: 36.355, lng: 138.595 },
+                { lat: 36.350, lng: 138.605 },
+                { lat: 36.340, lng: 138.590 }
+            ]
+        },
+        {
+            name: "群馬県 みなかみ町",
+            lat: 36.6786,
+            lng: 138.9842,
+            area: [
+                { lat: 36.675, lng: 138.980 },
+                { lat: 36.685, lng: 138.990 },
+                { lat: 36.680, lng: 139.000 },
+                { lat: 36.670, lng: 138.985 }
+            ]
+        },
+        {
+            name: "沖縄県 西表島",
+            lat: 24.3161,
+            lng: 123.8444,
+            area: [
+                { lat: 24.310, lng: 123.840 },
+                { lat: 24.320, lng: 123.850 },
+                { lat: 24.315, lng: 123.855 },
+                { lat: 24.305, lng: 123.845 }
+            ]
+        },
+        {
+            name: "滋賀県 東近江市",
+            lat: 35.1094,
+            lng: 136.1815,
+            area: [
+                { lat: 35.105, lng: 136.175 },
+                { lat: 35.115, lng: 136.185 },
+                { lat: 35.110, lng: 136.195 },
+                { lat: 35.100, lng: 136.180 }
+            ]
+        },
+        {
+            name: "青森県 奥入瀬渓流",
+            lat: 40.5230,
+            lng: 140.9738,
+            area: [
+                { lat: 40.520, lng: 140.970 },
+                { lat: 40.530, lng: 140.980 },
+                { lat: 40.525, lng: 140.985 },
+                { lat: 40.515, lng: 140.975 }
+            ]
+        },
+        {
+            name: "群馬県 前橋市",
+            lat: 36.3896,
+            lng: 139.0622,
+            area: [
+                { lat: 36.385, lng: 139.060 },
+                { lat: 36.395, lng: 139.070 },
+                { lat: 36.390, lng: 139.075 },
+                { lat: 36.380, lng: 139.065 }
+            ]
+        },
+        {
+            name: "奈良県 川上村",
+            lat: 34.2572,
+            lng: 135.9634,
+            area: [
+                { lat: 34.255, lng: 135.960 },
+                { lat: 34.265, lng: 135.970 },
+                { lat: 34.260, lng: 135.975 },
+                { lat: 34.250, lng: 135.965 }
+            ]
+        },
+        {
+            name: "愛媛県 西条市",
+            lat: 33.9170,
+            lng: 133.1826,
+            area: [
+                { lat: 33.915, lng: 133.180 },
+                { lat: 33.925, lng: 133.190 },
+                { lat: 33.920, lng: 133.195 },
+                { lat: 33.910, lng: 133.185 }
+            ]
+        },
+        {
+            name: "鹿児島県 屋久島町",
+            lat: 30.3718,
+            lng: 130.6517,
+            area: [
+                { lat: 30.370, lng: 130.650 },
+                { lat: 30.380, lng: 130.660 },
+                { lat: 30.375, lng: 130.665 },
+                { lat: 30.365, lng: 130.655 }
+            ]
+        },
+        {
+            name: "鹿児島県 甑島",
+            lat: 31.8114,
+            lng: 129.8700,
+            area: [
+                { lat: 31.810, lng: 129.865 },
+                { lat: 31.820, lng: 129.875 },
+                { lat: 31.815, lng: 129.880 },
+                { lat: 31.805, lng: 129.870 }
+            ]
+        },
+        {
+            name: "香川県 まんのう町",
+            lat: 34.1419,
+            lng: 133.9630,
+            area: [
+                { lat: 34.140, lng: 133.960 },
+                { lat: 34.150, lng: 133.970 },
+                { lat: 34.145, lng: 133.975 },
+                { lat: 34.135, lng: 133.965 }
+            ]
+        },
+        {
+            name: "東京都 神津島",
+            lat: 34.1967,
+            lng: 139.1450,
+            area: [
+                { lat: 34.195, lng: 139.140 },
+                { lat: 34.205, lng: 139.150 },
+                { lat: 34.200, lng: 139.155 },
+                { lat: 34.190, lng: 139.145 }
+            ]
+        },
+        {
+            name: "富山県 上市町",
+            lat: 36.7056,
+            lng: 137.3239,
+            area: [
+                { lat: 36.700, lng: 137.320 },
+                { lat: 36.710, lng: 137.330 },
+                { lat: 36.705, lng: 137.335 },
+                { lat: 36.695, lng: 137.325 }
+            ]
+        },
+        {
+            name: "広島県 廿日市市",
+            lat: 34.3482,
+            lng: 132.3316,
+            area: [
+                { lat: 34.345, lng: 132.330 },
+                { lat: 34.355, lng: 132.340 },
+                { lat: 34.350, lng: 132.345 },
+                { lat: 34.340, lng: 132.335 }
+            ]
+        }
                 
             ];
 
-            // Add markers with info windows
-            locations.forEach(function(location) {
-                var marker = new google.maps.Marker({
-                    position: { lat: location.lat, lng: location.lng },
-                    map: map,
-                    title: location.name
-                });
+    // Add markers and polygons
+    locations.forEach(function (location) {
+        // Add marker
+        var marker = new google.maps.Marker({
+            position: { lat: location.lat, lng: location.lng },
+            map: map,
+            title: location.name
+        });
+
+        // Add polygon area
+        if (location.area) {
+            var polygon = new google.maps.Polygon({
+                paths: location.area,
+                strokeColor: "#FF0000",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: "#FF0000",
+                fillOpacity: 0.35
+            });
+            polygon.setMap(map);
+        }
 
                 var infoWindow = new google.maps.InfoWindow({
                     content: `<div style="font-size:14px;"><b>${location.name}</b></div>`
@@ -92,7 +446,7 @@
         </section>
         <section class="cards" style="display: flex; justify-content: center; align-items: flex-start; flex-wrap: wrap;"></section>
         <section id="map-section">
-            <h2>Explore Locations</h2>
+            <h2>エコツーリズム推進地</h2>
             <div id="map" style="width: 100vw; height: 600px;"></div>
         </section>
     </main>
