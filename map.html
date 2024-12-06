@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco-Tourist</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="functions.js" defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLw4sft_50tOYHYa109TPHqPsV8Tftf58"></script>
+    <script>
+        function initMap() {
+            // Map options
+            var options = {
+                zoom: 6,
+                center: { lat: 36.2048, lng: 138.2529 } // Centered on Japan
+            };
+
+            // New map
+            var map = new google.maps.Map(document.getElementById("map"), options);
+
+            // Locations with coordinates
+            // Locations with coordinates
+            var locations = [
+            {
+            name: "埼玉県 飯能市",
+            lat: 35.8579,
+            lng: 139.3216,
+            area: [
+                { lat: 35.8421, lng: 139.2888 },
+                { lat: 35.8727, lng: 139.3536 },
+                { lat: 35.8803, lng: 139.3216 },
+                { lat: 35.8507, lng: 139.2888 }
+            ]
+        },
+        {
+            name: "渡嘉敷村",
+            lat: 26.1978,
+            lng: 127.3654,
+            area: [
+                { lat: 26.1866, lng: 127.3442 },
+                { lat: 26.2084, lng: 127.3866 },
+                { lat: 26.1794, lng: 127.4034 },
+                { lat: 26.1632, lng: 127.3442 }
+            ]
+        },
+        {
+            name: "座間味村",
+            lat: 26.2292,
+            lng: 127.3099,
+            area: [
+                { lat: 26.2142, lng: 127.2847 },
+                { lat: 26.2442, lng: 127.3351 },
+                { lat: 26.2292, lng: 127.3503 },
+                { lat: 26.1992, lng: 127.3099 }
+            ]
+        },
+        {
+            name: "谷川岳",
+            lat: 36.8177,
+            lng: 139.0236,
+            area: [
+                { lat: 36.7982, lng: 138.983 },
+                { lat: 36.8372, lng: 139.0642 },
+                { lat: 36.8477, lng: 139.0236 },
+                { lat: 36.7882, lng: 138.983 }
+            ]
+        },
+        {
+            name: "三重県 鳥羽市",
+            lat: 34.4875,
+            lng: 136.8431,
+            area: [
+                { lat: 34.4675, lng: 136.8031 },
+                { lat: 34.5075, lng: 136.8831 },
+                { lat: 34.4975, lng: 136.9031 },
+                { lat: 34.4575, lng: 136.8431 }
+            ]
+        },
+        {
+            name: "三重県 名張市",
+            lat: 34.6286,
+            lng: 136.1031,
+            area: [
+                { lat: 34.6036, lng: 136.0681 },
+                { lat: 34.6536, lng: 136.1381 },
+                { lat: 34.6286, lng: 136.1531 },
+                { lat: 34.5786, lng: 136.1031 }
+            ]
+        },
+        {
+            name: "京都府 南丹市美山",
+            lat: 35.2392,
+            lng: 135.6716,
+            area: [
+                { lat: 35.2092, lng: 135.6316 },
+                { lat: 35.2692, lng: 135.7116 },
+                { lat: 35.2392, lng: 135.7316 },
+                { lat: 35.1892, lng: 135.6716 }
+            ]
+        },
+        {
+            name: "小笠原",
+            lat: 27.0935,
+            lng: 142.2132,
+            area: [
+                { lat: 27.0635, lng: 142.1732 },
+                { lat: 27.1235, lng: 142.2532 },
+                { lat: 27.0935, lng: 142.2732 },
+                { lat: 27.0435, lng: 142.2132 }
+            ]
+        },
+        {
+            name: "北海道弟子屈町",
+            lat: 43.4825,
+            lng: 144.4587,
+            area: [
+                { lat: 43.4525, lng: 144.4187 },
+                { lat: 43.5125, lng: 144.4987 },
+                { lat: 43.4825, lng: 144.5187 },
+                { lat: 43.4325, lng: 144.4587 }
+            ]
+        },
+        {
+            name: "上市まちのわ",
+            lat: 36.7056,
+            lng: 137.3239,
+            area: [
+                { lat: 36.6756, lng: 137.2839 },
+                { lat: 36.7356, lng: 137.3639 },
+                { lat: 36.7056, lng: 137.3839 },
+                { lat: 36.6556, lng: 137.3239 }
+            ]
+        },
+        {
+            name: "石鎚山系",
+            lat: 33.7623,
+            lng: 133.1184,
+            area: [
+                { lat: 33.7423, lng: 133.0984 },
+                { lat: 33.7823, lng: 133.1584 },
+                { lat: 33.7623, lng: 133.1784 },
+                { lat: 33.7223, lng: 133.1384 }
+            ]
+        },
+        {
+            name: "串間",
+            lat: 31.4722,
+            lng: 131.2271,
+            area: [
+                { lat: 31.4422, lng: 131.1871 },
+                { lat: 31.5022, lng: 131.2671 },
+                { lat: 31.4722, lng: 131.2871 },
+                { lat: 31.4222, lng: 131.2271 }
+            ]
+        },
+        {
+            name: "奄美市",
+            lat: 28.3762,
+            lng: 129.4947,
+            area: [
+                { lat: 28.3462, lng: 129.4547 },
+                { lat: 28.4062, lng: 129.5347 },
+                { lat: 28.3762, lng: 129.5547 },
+                { lat: 28.3262, lng: 129.4947 }
+            ]
+        },
+        {
+            name: "東京都 檜原村",
+            lat: 35.7288,
+            lng: 139.0848,
+            area: [
+                { lat: 35.6988, lng: 139.0448 },
+                { lat: 35.7588, lng: 139.1248 },
+                { lat: 35.7288, lng: 139.1448 },
+                { lat: 35.6788, lng: 139.0848 }
+            ]
+        },
+        {
+            name: "岐阜県 下呂市",
+            lat: 35.8052,
+            lng: 137.2446,
+            area: [
+                { lat: 35.7852, lng: 137.2146 },
+                { lat: 35.8252, lng: 137.2746 },
+                { lat: 35.8052, lng: 137.2946 },
+                { lat: 35.7752, lng: 137.2446 }
+            ]
+        },
+        {
+    name: "赤城山",
+    lat: 36.5293,
+    lng: 139.2028,
+    area: [
+        { lat: 36.515, lng: 139.180 },
+        { lat: 36.545, lng: 139.230 },
+        { lat: 36.535, lng: 139.245 },
+        { lat: 36.505, lng: 139.205 }
+    ]
+},
+{
+    name: "熊本県 阿蘇ジオパーク",
+    lat: 32.8833,
+    lng: 131.1042,
+    area: [
+        { lat: 32.865, lng: 131.080 },
+        { lat: 32.895, lng: 131.130 },
+        { lat: 32.885, lng: 131.145 },
+        { lat: 32.855, lng: 131.105 }
+    ]
+},
+{
+    name: "吉野川紀の川源流",
+    lat: 33.8484,
+    lng: 135.8639,
+    area: [
+        { lat: 33.835, lng: 135.840 },
+        { lat: 33.865, lng: 135.890 },
+        { lat: 33.850, lng: 135.905 },
+        { lat: 33.820, lng: 135.865 }
+    ]
+},
+{
+    name: "宮島",
+    lat: 34.2958,
+    lng: 132.3198,
+    area: [
+        { lat: 34.280, lng: 132.290 },
+        { lat: 34.310, lng: 132.340 },
+        { lat: 34.295, lng: 132.355 },
+        { lat: 34.265, lng: 132.315 }
+    ]
+},
+{
+    name: "岐阜県 白川村",
+    lat: 36.2606,
+    lng: 136.8997,
+    area: [
+        { lat: 36.240, lng: 136.870 },
+        { lat: 36.280, lng: 136.930 },
+        { lat: 36.260, lng: 136.950 },
+        { lat: 36.230, lng: 136.910 }
+    ]
+},
+{
+    name: "長野県 軽井沢町",
+    lat: 36.3483,
+    lng: 138.5915,
+    area: [
+        { lat: 36.325, lng: 138.560 },
+        { lat: 36.375, lng: 138.610 },
+        { lat: 36.350, lng: 138.635 },
+        { lat: 36.315, lng: 138.590 }
+    ]
+},
+{
+    name: "群馬県 みなかみ町",
+    lat: 36.6786,
+    lng: 138.9842,
+    area: [
+        { lat: 36.655, lng: 138.950 },
+        { lat: 36.695, lng: 139.010 },
+        { lat: 36.680, lng: 139.035 },
+        { lat: 36.640, lng: 138.995 }
+    ]
+},
+{
+    name: "沖縄県 西表島",
+    lat: 24.3161,
+    lng: 123.8444,
+    area: [
+        { lat: 24.295, lng: 123.810 },
+        { lat: 24.335, lng: 123.870 },
+        { lat: 24.315, lng: 123.895 },
+        { lat: 24.275, lng: 123.855 }
+    ]
+},
+{
+    name: "滋賀県 東近江市",
+    lat: 35.1094,
+    lng: 136.1815,
+    area: [
+        { lat: 35.085, lng: 136.150 },
+        { lat: 35.125, lng: 136.200 },
+        { lat: 35.110, lng: 136.215 },
+        { lat: 35.070, lng: 136.175 }
+    ]
+},
+{
+    name: "青森県 奥入瀬渓流",
+    lat: 40.5230,
+    lng: 140.9738,
+    area: [
+        { lat: 40.500, lng: 140.940 },
+        { lat: 40.540, lng: 140.990 },
+        { lat: 40.525, lng: 141.015 },
+        { lat: 40.485, lng: 140.975 }
+    ]
+},
+{
+    name: "群馬県 前橋市",
+    lat: 36.3896,
+    lng: 139.0622,
+    area: [
+        { lat: 36.365, lng: 139.030 },
+        { lat: 36.405, lng: 139.090 },
+        { lat: 36.390, lng: 139.115 },
+        { lat: 36.350, lng: 139.065 }
+    ]
+},
+{
+    name: "奈良県 川上村",
+    lat: 34.2572,
+    lng: 135.9634,
+    area: [
+        { lat: 34.235, lng: 135.930 },
+        { lat: 34.275, lng: 135.980 },
+        { lat: 34.260, lng: 136.005 },
+        { lat: 34.220, lng: 135.965 }
+    ]
+},
+{
+    name: "愛媛県 西条市",
+    lat: 33.9170,
+    lng: 133.1826,
+    area: [
+        { lat: 33.901, lng: 133.164 },
+        { lat: 33.941, lng: 133.200 },
+        { lat: 33.926, lng: 133.210 },
+        { lat: 33.887, lng: 133.175 }
+    ]
+},
+{
+    name: "鹿児島県 屋久島町",
+    lat: 30.3718,
+    lng: 130.6517,
+    area: [
+        { lat: 30.355, lng: 130.630 },
+        { lat: 30.395, lng: 130.670 },
+        { lat: 30.380, lng: 130.685 },
+        { lat: 30.340, lng: 130.655 }
+    ]
+},
+{
+    name: "鹿児島県 甑島",
+    lat: 31.8114,
+    lng: 129.8700,
+    area: [
+        { lat: 31.795, lng: 129.850 },
+        { lat: 31.835, lng: 129.890 },
+        { lat: 31.820, lng: 129.905 },
+        { lat: 31.780, lng: 129.870 }
+    ]
+},
+{
+    name: "香川県 まんのう町",
+    lat: 34.1419,
+    lng: 133.9630,
+    area: [
+        { lat: 34.125, lng: 133.940 },
+        { lat: 34.165, lng: 133.980 },
+        { lat: 34.150, lng: 133.995 },
+        { lat: 34.110, lng: 133.960 }
+    ]
+},
+{
+    name: "東京都 神津島",
+    lat: 34.1967,
+    lng: 139.1450,
+    area: [
+        { lat: 34.180, lng: 139.120 },
+        { lat: 34.220, lng: 139.160 },
+        { lat: 34.205, lng: 139.175 },
+        { lat: 34.165, lng: 139.145 }
+    ]
+},
+{
+    name: "富山県 上市町",
+    lat: 36.7056,
+    lng: 137.3239,
+    area: [
+        { lat: 36.680, lng: 137.295 },
+        { lat: 36.730, lng: 137.355 },
+        { lat: 36.705, lng: 137.370 },
+        { lat: 36.655, lng: 137.325 }
+    ]
+},
+{
+    name: "広島県 廿日市市",
+    lat: 34.3482,
+    lng: 132.3316,
+    area: [
+        { lat: 34.325, lng: 132.300 },
+        { lat: 34.365, lng: 132.360 },
+        { lat: 34.350, lng: 132.375 },
+        { lat: 34.310, lng: 132.335 }
+    ]
+}
+
+                
+            ];
+
+        // Add markers and polygons
+    locations.forEach(function (location) {
+        // Add marker
+        var marker = new google.maps.Marker({
+            position: { lat: location.lat, lng: location.lng },
+            map: map,
+            title: location.name
+        });
+
+        // Add polygon area
+        if (location.area) {
+            var polygon = new google.maps.Polygon({
+                paths: location.area,
+                strokeColor: "#FF0000",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: "#FF0000",
+                fillOpacity: 0.35
+            });
+            polygon.setMap(map);
+        }
+
+                var infoWindow = new google.maps.InfoWindow({
+                    content: `<div style="font-size:14px;"><b>${location.name}</b></div>`
+                });
+
+                // Show info window on marker click
+                marker.addListener("click", function() {
+                    infoWindow.open(map, marker);
+                });
+            });
+        }
+    </script>
+</head>
+<body onload="initMap()">
+    <header>
+        <div class="title">
+            <h1>Eco-Tourist</h1>
+            <p>楽に自然を探索しよう</p>
+        </div>
+    </header>
+        <section class="box">
+            <div class="boxes">
+                <h2 >動物の生息地を検索</h2>
+                <form>
+                    <input type="search" id="animalSearchInput" placeholder="どうぶつのなまえをいれてね"size=24>
+                </form>
+                <button class="box-btn" onclick="searchHabitat()">検索</button>
+                <p id="searchResult"></p>
+            </div>
+        </section>
+        <section class="cards" style="display: flex; justify-content: center; align-items: flex-start; flex-wrap: wrap;"></section>
+        <section class="title" id="map-section">
+            <h2>日本のエコツーリズム地</h2>
+            <div class= maps id="map" style="width: 100vw; height: 600px;"></div>
+        </section>
+    </main>
+
+    <nav class="navbar">
+        <a href="index.html">
+            <img class="logo" src="home.png" alt="logo">
+        </a>
+        <a href="creature.html">
+            <img class="logo" src="bg-1.png" alt="logo">
+        </a>
+        <a href="creature.html">
+            <img class="logo" src="bg-2.png" alt="logo">
+        </a>
+        <a href="gallery.html">
+            <img class="logo" src="bg-4.png" alt="logo">
+        </a>
+    </nav>
+
+    <script>
+        let videoStream = null;
+
+// Function to start the camera
+function startCamera() {
+    const video = document.getElementById('cameraFeed');
+    video.style.display = 'block';
+
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } })
+        .then((stream) => {
+            videoStream = stream;
+            video.srcObject = stream;
+        })
+        .catch((error) => {
+            console.error('Error accessing camera:', error);
+            alert('カメラにアクセスできませんでした。カメラの設定を確認してください。');
+        });
+}
+
+// Function to take a photo and save it
+function takePhoto() {
+    const video = document.getElementById('cameraFeed');
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+
+    // Set canvas size to match video
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    // Draw the current video frame onto the canvas
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // Convert canvas to image URL
+    const photoURL = canvas.toDataURL('image/jpeg');
+
+    // Save the photo URL to localStorage
+    let storedPhotos = JSON.parse(localStorage.getItem('photos')) || [];
+    storedPhotos.push(photoURL);
+    localStorage.setItem('photos', JSON.stringify(storedPhotos));
+
+    // Notify the user
+    alert('写真が保存されました！');
+}
+
+        // Function to start the camera
+        function startCamera() {
+            const video = document.getElementById('cameraFeed');
+            video.style.display = 'block';
+
+            // Access the user's camera
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } })
+                .then((stream) => {
+                    video.srcObject = stream;
+                })
+                .catch((error) => {
+                    console.error('Error accessing camera:', error);
+                    alert('カメラにアクセスできませんでした。カメラの設定を確認してください。');
+                });
+        }
+
+        // Function to navigate to the encyclopedia page
+        function goToEncyclopedia() {
+            window.location.href = 'creature.html';
+        }
+    </script>
+</body>
+</html>
